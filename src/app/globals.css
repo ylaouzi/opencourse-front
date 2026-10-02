@@ -1,0 +1,414 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-destructive-subtle: var(--destructive-subtle);
+  --color-success: var(--success);
+  --color-success-subtle: var(--success-subtle);
+  --color-warning: var(--warning);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-surface-base: var(--surface-base);
+  --color-surface-bar: var(--surface-bar);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-overlay: var(--surface-overlay);
+  --color-brand-2: var(--brand-2);
+  --shadow-raised: var(--elev-raised);
+  --shadow-overlay: var(--elev-overlay);
+  --shadow-modal: var(--elev-modal);
+  --shadow-lifted: var(--elev-lifted);
+  --ease-out-soft: var(--ease-out-soft);
+  --ease-spring: var(--ease-spring);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+
+  /* ---- Tonal surface ramp -------------------------------------------------
+     Every surface is the SAME hue as the brand (285°) at very low chroma, so
+     no surface is an arbitrary grey and they harmonise by construction. The
+     app bar and page are deliberately different stops on this one ramp.
+     In light mode elevation moves TOWARD white.                            */
+  --surface-sunken: oklch(0.968 0.006 285);   /* #f4f4f8 inset / alternating */
+  --surface-base: oklch(0.986 0.004 285);     /* #fafafd the page            */
+  --surface-bar: oklch(0.978 0.007 285);      /* #f7f7fc app bar             */
+  --surface-raised: oklch(1 0 285);           /* #ffffff cards               */
+  --surface-overlay: oklch(1 0 285);          /* #ffffff menus, popovers     */
+
+  /* Decorative companion, analogous to the brand (281° → 318°). Gradients,
+     generated covers and celebratory moments only — never semantic. */
+  --brand-2: oklch(0.52 0.165 318);
+
+  /* ---- Elevation ----------------------------------------------------------
+     Shadows are tinted with the brand hue rather than pure black, which is
+     what keeps them from looking dirty on a tinted surface. */
+  --elev-raised:
+    0 1px 2px -1px oklch(0.3 0.05 285 / 0.08),
+    0 2px 8px -2px oklch(0.3 0.05 285 / 0.06);
+  --elev-lifted:
+    0 2px 4px -2px oklch(0.3 0.05 285 / 0.1),
+    0 12px 24px -8px oklch(0.3 0.05 285 / 0.12);
+  --elev-overlay:
+    0 4px 8px -4px oklch(0.3 0.05 285 / 0.12),
+    0 16px 32px -8px oklch(0.3 0.05 285 / 0.14);
+  --elev-modal:
+    0 8px 16px -8px oklch(0.3 0.05 285 / 0.16),
+    0 32px 64px -16px oklch(0.3 0.05 285 / 0.2);
+
+  /* ---- Motion -------------------------------------------------------------
+     One easing pair for the whole app. `soft` for everyday transitions,
+     `spring` (slight overshoot) reserved for moments worth celebrating —
+     completing a lesson, passing a quiz, finishing a course. */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --dur-fast: 120ms;
+  --dur-base: 180ms;
+  --dur-slow: 280ms;
+  --dur-celebrate: 520ms;
+
+  /* Surfaces — deliberately NOT pure white. Lesson bodies are read for 20+
+     minutes; maximum contrast (the shadcn default was 19.8:1) is fatiguing.
+     Body text lands at 16.1:1, inside the comfortable reading band. */
+  --background: var(--surface-base);
+  --foreground: oklch(0.238 0.011 260.7);        /* #1c1f24  16.1:1 */
+  --card: var(--surface-raised);
+  --card-foreground: oklch(0.238 0.011 260.7);
+  --popover: var(--surface-overlay);
+  --popover-foreground: oklch(0.238 0.011 260.7);
+
+  /* Brand: indigo. Chosen because green/amber/red are all load-bearing
+     elsewhere in this product (quiz correctness, locks, course status), so the
+     brand hue must not compete with meaning. Indigo is semantically free and
+     stays distinct from every status colour under colour-vision deficiency. */
+  --primary: oklch(0.471 0.173 281);             /* #4f46b8  7.1:1 */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.964 0.004 271.4);
+  --secondary-foreground: oklch(0.238 0.011 260.7);
+  --muted: oklch(0.964 0.004 271.4);
+  --muted-foreground: oklch(0.495 0.024 264.3);  /* #5b6270  6.0:1 */
+  --accent: oklch(0.949 0.02 292.1);
+  --accent-foreground: oklch(0.402 0.17 279.1);
+
+  /* Status. Reserved — never reused as a brand or category colour, and always
+     shipped alongside an icon and a text label, never colour alone. */
+  --success: oklch(0.509 0.13 151.5);            /* #0f7a3d  5.3:1 */
+  --success-subtle: oklch(0.954 0.02 154.9);
+  --warning: oklch(0.545 0.126 61.6);            /* #a35c00  5.0:1 */
+  --warning-subtle: oklch(0.962 0.029 80.7);
+  --destructive: oklch(0.501 0.178 28.7);        /* #b3261e  6.4:1 */
+  --destructive-subtle: oklch(0.95 0.019 21.6);
+
+  --border: oklch(0.925 0.007 268.5);
+  --input: oklch(0.925 0.007 268.5);
+  --ring: oklch(0.471 0.173 281);
+  --chart-1: oklch(0.471 0.173 281);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: var(--surface-bar);
+  --sidebar-foreground: oklch(0.238 0.011 260.7);
+  --sidebar-primary: oklch(0.471 0.173 281);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.949 0.02 292.1);
+  --sidebar-accent-foreground: oklch(0.402 0.17 279.1);
+  --sidebar-border: oklch(0.925 0.007 268.5);
+  --sidebar-ring: oklch(0.471 0.173 281);
+}
+
+.dark {
+
+  /* In dark mode elevation is carried by LIGHTNESS, not shadow — a shadow on a
+     dark surface is nearly invisible. Same ramp, inverted direction. */
+  --surface-sunken: oklch(0.172 0.01 285);    /* #0f0f14 */
+  --surface-base: oklch(0.205 0.011 285);     /* #16171c */
+  --surface-bar: oklch(0.188 0.011 285);      /* #131318 */
+  --surface-raised: oklch(0.243 0.013 285);   /* #1f1f26 */
+  --surface-overlay: oklch(0.278 0.015 285);  /* #272730 */
+
+  --brand-2: oklch(0.76 0.11 320);
+
+  /* Kept deep and soft: they add separation without the grey haze that black
+     shadows produce over a dark surface. */
+  --elev-raised: 0 1px 2px -1px oklch(0 0 0 / 0.4);
+  --elev-lifted: 0 4px 16px -6px oklch(0 0 0 / 0.5);
+  --elev-overlay: 0 8px 24px -8px oklch(0 0 0 / 0.6);
+  --elev-modal: 0 16px 48px -12px oklch(0 0 0 / 0.7);
+
+  /* Not near-black. #0a0a0a with #fafafa text causes halation — text appearing
+     to bleed — which is worst for astigmatic readers, a large minority. Body
+     text lands at 14.5:1 on a lifted surface. */
+  --background: var(--surface-base);
+  --foreground: oklch(0.931 0.006 264.5);        /* #e6e8ec  14.5:1 */
+  /* Elevation goes UP in lightness on dark surfaces, never down into shadow. */
+  --card: var(--surface-raised);
+  --card-foreground: oklch(0.931 0.006 264.5);
+  --popover: var(--surface-overlay);
+  --popover-foreground: oklch(0.931 0.006 264.5);
+
+  /* Dark mode is a re-pick, not an inversion: accents are lighter AND lower
+     chroma, because saturated colour vibrates against a dark surface. */
+  --primary: oklch(0.741 0.114 286.1);           /* #a5a0f0  7.5:1 */
+  --primary-foreground: oklch(0.238 0.074 282.7);
+  --secondary: oklch(0.3 0.014 261.7);
+  --secondary-foreground: oklch(0.931 0.006 264.5);
+  --muted: oklch(0.3 0.014 261.7);
+  --muted-foreground: oklch(0.733 0.019 261.3);  /* #a2a9b5  7.5:1 */
+  --accent: oklch(0.313 0.069 285.2);
+  --accent-foreground: oklch(0.844 0.071 288.4);
+
+  --success: oklch(0.8 0.182 151.7);             /* #4ade80  10.2:1 */
+  --success-subtle: oklch(0.298 0.051 159.7);
+  --warning: oklch(0.837 0.164 84.4);            /* #fbbf24  10.6:1 */
+  --warning-subtle: oklch(0.302 0.05 84.4);
+  --destructive: oklch(0.711 0.166 22.2);        /* #f87171  6.4:1 */
+  --destructive-subtle: oklch(0.28 0.047 20.5);
+
+  --border: oklch(0.324 0.015 264.3);
+  --input: oklch(0.324 0.015 264.3);
+  --ring: oklch(0.741 0.114 286.1);
+  --chart-1: oklch(0.741 0.114 286.1);
+  --chart-2: oklch(0.708 0 0);
+  --chart-3: oklch(0.556 0 0);
+  --chart-4: oklch(0.439 0 0);
+  --chart-5: oklch(0.371 0 0);
+  --sidebar: var(--surface-bar);
+  --sidebar-foreground: oklch(0.931 0.006 264.5);
+  --sidebar-primary: oklch(0.741 0.114 286.1);
+  --sidebar-primary-foreground: oklch(0.238 0.074 282.7);
+  --sidebar-accent: oklch(0.313 0.069 285.2);
+  --sidebar-accent-foreground: oklch(0.844 0.071 288.4);
+  --sidebar-border: oklch(0.324 0.015 264.3);
+  --sidebar-ring: oklch(0.741 0.114 286.1);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+/* Data-viz roles. One validated sequential hue: every chart here is
+   single-series, so no categorical palette is in play.
+   Light #2a78d6 / dark #3987e5 — both pass the lightness, chroma and 3:1
+   contrast checks against their own surface.
+
+   Scoped to `.dark`, matching this app's own theme mechanism
+   (@custom-variant dark (&:is(.dark *))). Using prefers-color-scheme here
+   instead would flip the chart to its dark step while the page stayed light. */
+.viz-root {
+  --series-1: #2a78d6;
+}
+
+.dark .viz-root,
+.dark.viz-root {
+  --series-1: #3987e5;
+}
+
+/* Lesson body typography.
+   Shared by the TipTap editor and the learner's reader so what an author sees
+   while writing matches what a learner gets. The element list mirrors the
+   server's sanitiser allowlist — nothing else can survive a save. */
+.lesson-prose {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+.lesson-prose > * + * {
+  margin-top: 1em;
+}
+.lesson-prose h2 {
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-top: 1.6em;
+}
+.lesson-prose h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-top: 1.4em;
+}
+.lesson-prose h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1.2em;
+}
+.lesson-prose ul,
+.lesson-prose ol {
+  padding-left: 1.5rem;
+}
+.lesson-prose ul {
+  list-style: disc;
+}
+.lesson-prose ol {
+  list-style: decimal;
+}
+.lesson-prose li + li {
+  margin-top: 0.35em;
+}
+.lesson-prose blockquote {
+  border-left: 3px solid var(--border);
+  padding-left: 1rem;
+  color: var(--muted-foreground);
+  font-style: italic;
+}
+.lesson-prose code {
+  background: var(--muted);
+  border-radius: 0.25rem;
+  padding: 0.15em 0.35em;
+  font-size: 0.875em;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+.lesson-prose pre {
+  background: var(--muted);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+}
+.lesson-prose pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.875em;
+}
+.lesson-prose a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.lesson-prose hr {
+  border-color: var(--border);
+  margin: 2em 0;
+}
+
+/* Block editor additions: media and tables.
+   These mirror the widened sanitiser allowlist — the reader and the editor
+   share these rules, so authors see what learners will get. */
+.lesson-prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}
+.lesson-prose iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.lesson-prose div[data-youtube-video] {
+  margin: 1.5em 0;
+}
+.lesson-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+  /* Wide tables scroll inside themselves rather than pushing the page out. */
+  display: block;
+  overflow-x: auto;
+}
+.lesson-prose th,
+.lesson-prose td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+.lesson-prose th {
+  background: var(--muted);
+  font-weight: 600;
+}
+
+/* Editor-only affordances. */
+.lesson-prose .ProseMirror-selectednode {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.lesson-prose .tableWrapper {
+  overflow-x: auto;
+}
+.lesson-prose .column-resize-handle {
+  background: var(--primary);
+  width: 2px;
+  position: absolute;
+  right: -1px;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+/* Ensure editor selection / scroll into view never hides under sticky headers */
+.lesson-prose.ProseMirror,
+.lesson-prose .ProseMirror,
+.lesson-prose .ProseMirror > * {
+  scroll-margin-top: 160px;
+}
+
+/* TipTap empty document placeholder styling */
+.lesson-prose.ProseMirror:has(> p:only-child:empty)::before,
+.lesson-prose.ProseMirror:has(> p:only-child > br.ProseMirror-trailingBreak:only-child)::before {
+  content: attr(data-placeholder);
+  position: absolute;
+  left: 1.5rem;
+  top: 1.5rem;
+  color: var(--muted-foreground);
+  opacity: 0.45;
+  pointer-events: none;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
+@media (min-width: 640px) {
+  .lesson-prose.ProseMirror:has(> p:only-child:empty)::before,
+  .lesson-prose.ProseMirror:has(> p:only-child > br.ProseMirror-trailingBreak:only-child)::before {
+    left: 2.5rem;
+  }
+}
+

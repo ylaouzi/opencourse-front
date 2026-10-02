@@ -1,0 +1,34 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!--
+    Favicon. Deliberately NOT the bare mark: at 16px a hairline ring on a
+    transparent ground collapses into a smudge, and a browser tab is mostly
+    16px. A solid brand tile with the mark knocked out in white always reads.
+
+    Colours are hard-coded because this file is served standalone, with no
+    access to the app's CSS custom properties. They are the light-theme values
+    of the primary and brand-2 tokens.
+
+    Note for editors: an XML comment may not contain two consecutive hyphens,
+    so CSS variable names cannot be written out here.
+  -->
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4F46B8"/>
+      <stop offset="1" stop-color="#8F42A5"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="64" height="64" rx="15" fill="url(#tile)"/>
+
+  <g transform="translate(8 8)">
+    <!-- The ring sits back so the steps carry the shape at small sizes. -->
+    <circle cx="24" cy="24" r="17" fill="none" stroke="#ffffff" stroke-opacity="0.55"
+            stroke-width="5.5" stroke-linecap="round"
+            stroke-dasharray="72 107" transform="rotate(28 24 24)"/>
+    <g fill="#ffffff">
+      <rect x="13" y="26" width="5.5" height="8" rx="2.75"/>
+      <rect x="21.25" y="21" width="5.5" height="13" rx="2.75"/>
+      <rect x="29.5" y="6" width="5.5" height="28" rx="2.75"/>
+    </g>
+  </g>
+</svg>
