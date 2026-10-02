@@ -115,10 +115,9 @@ yarn start
 ```text
 cours-frontend/
 ├── public/
-│   ├── php-wasm/              # Standalone PHP 8.2 WASM binary & loader
-│   │   ├── php_8_2.wasm       # PHP 8.2 Zend Engine WebAssembly binary
-│   │   └── php_8_2.js         # WASM runtime loader
-│   └── demonstration_audio.wav # Narration demo track
+│   └── php-wasm/              # Standalone PHP 8.2 WASM binary & loader
+│       ├── php_8_2.wasm       # PHP 8.2 Zend Engine WebAssembly binary
+│       └── php_8_2.js         # WASM runtime loader
 ├── src/
 │   ├── app/                   # Next.js 16 App Router pages
 │   │   ├── (admin)/           # Admin dashboard, curriculum builder & course editor
